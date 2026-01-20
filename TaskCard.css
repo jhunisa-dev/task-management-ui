@@ -48,3 +48,9 @@
   background: none; border: none; color: #cbd5e1; cursor: pointer; font-size: 1.2rem;
 }
 .delete-btn:hover { color: #ef4444; }
+
+.task-card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}

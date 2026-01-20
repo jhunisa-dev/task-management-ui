@@ -21,9 +21,13 @@ export default function Dashboard() {
   };
 
   const urgentTasks = tasks
-    .filter(t => t.status !== "DONE" && t.deadline) 
-    .sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())
-    .slice(0, 3);
+  .filter(t => t.status !== "DONE" && (t.dueDate || t.deadline)) 
+  .sort((a, b) => {
+    const dateA = new Date(a.dueDate || a.deadline).getTime();
+    const dateB = new Date(b.dueDate || b.deadline).getTime();
+    return dateA - dateB;
+  })
+  .slice(0, 3);
 
   return (
     <div className="dashboard-page">
@@ -56,19 +60,25 @@ export default function Dashboard() {
           <h3>Deadlines Approaching</h3>
           {urgentTasks.length > 0 ? (
             <div className="task-list">
-              {urgentTasks.map(task => (
-                <div key={task.id} className="task-item">
-                  <div className="task-info">
-                    <span className="task-title">{task.title}</span>
-                    <span className="task-deadline">
-                        {new Date(task.deadline).toLocaleDateString()}
-                    </span>
+              {urgentTasks.map(task => {
+                const displayDate = task.dueDate || task.deadline; // Use whichever is available
+                return (
+                  <div key={task.id} className="task-item">
+                    <div className="task-info">
+                      <div className="task-main">
+                        <span className="task-title">{task.title}</span>
+                        <span className={`status-badge ${task.status.toLowerCase()}`}>
+                          {task.status.replace("_", " ")}
+                        </span>
+                      </div>
+                      {/* Moved the date into its own container for alignment */}
+                      <span className="task-deadline">
+                        {displayDate ? new Date(displayDate).toLocaleDateString() : "No Date"}
+                      </span>
+                    </div>
                   </div>
-                  <span className={`status-badge ${task.status.toLowerCase()}`}>
-                    {task.status.replace("_", " ")}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <p className="no-tasks">All caught up! No urgent deadlines.</p>

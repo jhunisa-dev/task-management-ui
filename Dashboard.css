@@ -73,3 +73,44 @@
     font-style: italic;
     margin-top: 1rem;
 }
+
+.task-item {
+  display: flex;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.task-info {
+  display: flex;
+  width: 100%;
+  justify-content: space-between; /* Pushes content to opposite ends */
+  align-items: center;
+}
+
+.task-main {
+  display: flex;
+  flex-direction: column; /* Puts the badge UNDER the title for a cleaner look */
+  gap: 4px;
+}
+
+.task-title {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.task-deadline {
+  font-size: 0.85rem;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* Adjust the badge for the dashboard view */
+.status-badge {
+  width: fit-content;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+}

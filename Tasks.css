@@ -132,3 +132,112 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+/* Close (X) Button in the corner */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #94a3b8; /* Slate gray */
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+/* Modal Actions Footer */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 2rem;
+}
+
+/* Cancel Button */
+.cancel-btn {
+  background-color: transparent;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+/* Save Changes Button (already exists, but let's ensure it's polished) */
+.save-btn {
+  background-color: #4f46e5; /* Indigo */
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-btn:hover {
+  background-color: #4338ca;
+}
+
+.save-btn:active {
+  transform: translateY(1px);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* This keeps the title and 'X' perfectly aligned */
+  margin-bottom: 1.5rem;
+}
+
+.delete-modal {
+  text-align: center;
+  max-width: 400px;
+}
+
+.delete-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.delete-modal h3 {
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.delete-modal p {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.delete-confirm-btn {
+  background-color: #ef4444; /* Red */
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.delete-confirm-btn:hover {
+  background-color: #dc2626;
+}

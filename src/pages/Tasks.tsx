@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { getTasks, deleteTask, updateTask, createTask } from "../services/taskService";
 import TaskCard from "../components/TaskCard";
 import TaskModal from "../components/TaskModal";
-import "/Tasks.css"; // Ensure the path starts with ./
+import DeleteConfirmModal from "../util/DeleteConfirmModal";
+import "/Tasks.css"; 
 import type { Task } from "../types/task";
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   
   useEffect(() => {
     fetchTasks();
@@ -29,15 +32,22 @@ export default function Tasks() {
     { id: "DONE", title: "Done", color: "#10b981" }
   ];
 
-  // Fix for 'handleDeleteAction' error
-  const handleDeleteAction = async (id: number) => {
-    if (window.confirm("Are you sure you want to delete this task?")) {
-      try {
-        await deleteTask(id);
-        fetchTasks();
-      } catch (err) {
-        console.error("Delete failed", err);
-      }
+  const handleDeleteAction = (id: number) => {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      setTaskToDelete(task);
+      setIsDeleteModalOpen(true);
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (!taskToDelete) return;
+    try {
+      await deleteTask(taskToDelete.id);
+      setIsDeleteModalOpen(false);
+      fetchTasks();
+    } catch (err) {
+      console.error("Delete failed", err);
     }
   };
 
@@ -46,22 +56,10 @@ export default function Tasks() {
     setIsModalOpen(true);
   };
 
-  // const handleSaveTask = async (updatedData: Partial<Task>) => {
-  //   if (!selectedTask) return;
-  //   try {
-  //     await updateTask(selectedTask.id, updatedData);
-  //     setIsModalOpen(false);
-  //     fetchTasks();
-  //   } catch (err) {
-  //     console.error("Save failed", err);
-  //   }
-  // };
-
   const handleSaveTask = async (updatedData: Partial<Task>) => {
   if (!selectedTask) return;
   
   try {
-    // If the task has an ID, it's an update. If not, it's a create.
     if (selectedTask.id) {
         await updateTask(selectedTask.id, updatedData);
     } else {
@@ -69,13 +67,12 @@ export default function Tasks() {
     }
     
     setIsModalOpen(false);
-    fetchTasks(); // This refreshes the Kanban board with new data
+    fetchTasks();
   } catch (err) {
     alert("Failed to save task. Please try again.");
   }
 };
 
-  // Drag and Drop Handlers
   const handleDragStart = (e: React.DragEvent, taskId: number) => {
     e.dataTransfer.setData("taskId", taskId.toString());
   };
@@ -130,6 +127,13 @@ export default function Tasks() {
                       task={taskItem} 
                       onDelete={handleDeleteAction} 
                       onEdit={handleEditClick} 
+                    />
+
+                    <DeleteConfirmModal 
+                      isOpen={isDeleteModalOpen}
+                      taskTitle={taskToDelete?.title || ""}
+                      onClose={() => setIsDeleteModalOpen(false)}
+                      onConfirm={confirmDelete}
                     />
                   </div>
                 ))}
