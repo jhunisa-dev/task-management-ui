@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
       {/* Note: Currently this Navbar will show on the Login page too. 
           See the tip below if you want to hide it on Login. */}
-      {/* <Navbar />  */}
+      <Navbar /> 
 
       <Routes>
         {/* Public Routes */}

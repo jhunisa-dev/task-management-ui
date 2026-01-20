@@ -27,7 +27,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axios";
 import { useAuth } from "../auth/AuthContext";
-import "/Login.css"; // Import the CSS file below
+import "/Auth.css"; // Import the CSS file below
 
 export default function Login() {
   const [username, setUsername] = useState("");
