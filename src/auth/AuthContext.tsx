@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
   };
 
-  if (loading) return null; // prevents redirect flicker
+  if (loading) return null;
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

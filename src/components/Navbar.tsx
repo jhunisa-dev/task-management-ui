@@ -72,11 +72,18 @@ export default function Navbar() {
 
       <div className="sidebar-menu">
         <NavLink to="/dashboard" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-           Dashboard
+          Dashboard
         </NavLink>
         <NavLink to="/tasks" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
           Tasks
         </NavLink>
+        
+        {/* Show Admin Panel only if user is an ADMIN */}
+        {user?.role === "ADMIN" && (
+          <NavLink to="/admin" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+            Admin Panel
+          </NavLink>
+        )}
       </div>
 
       <button className="logout-button" onClick={handleLogout}>
