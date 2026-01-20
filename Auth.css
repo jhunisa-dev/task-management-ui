@@ -12,8 +12,8 @@ body {
   background-color: #f3f4f6; /* Soft gray background */
 }
 
-/* 1. Container - Centers the card vertically and horizontally */
-.login-container {
+/* Container - Centers the card vertically and horizontally */
+.auth-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,8 +21,8 @@ body {
   padding: 20px;
 }
 
-/* 2. Card - White box with shadow */
-.login-card {
+/* Card - White box with shadow */
+.auth-card {
   background: #ffffff;
   width: 100%;
   max-width: 400px;
@@ -32,27 +32,27 @@ body {
               0 8px 10px -6px rgba(0, 0, 0, 0.01);
 }
 
-/* 3. Header Typography */
-.login-header {
+/* Header Typography */
+.auth-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.login-header h2 {
+.auth-header h2 {
   font-size: 1.75rem;
   font-weight: 700;
   color: #111827;
   margin: 0 0 0.5rem 0;
 }
 
-.login-header p {
+.auth-header p {
   color: #6b7280;
   font-size: 0.95rem;
   margin: 0;
 }
 
-/* 4. Form Layout */
-.login-form {
+/* Form Layout */
+.auth-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -70,7 +70,7 @@ body {
   color: #374151;
 }
 
-/* 5. Inputs - Modern styling with focus states */
+/* Inputs - Modern styling with focus states */
 .form-group input {
   padding: 0.75rem 1rem;
   border: 1px solid #d1d5db;
@@ -90,8 +90,8 @@ body {
   color: #9ca3af;
 }
 
-/* 6. Button - Gradient or solid primary color */
-.login-button {
+/* Button - Gradient or solid primary color */
+.auth-button {
   margin-top: 0.5rem;
   padding: 0.85rem;
   background-color: #4f46e5;
@@ -104,16 +104,16 @@ body {
   transition: background-color 0.2s;
 }
 
-.login-button:hover {
+.auth-button:hover {
   background-color: #4338ca;
 }
 
-.login-button:disabled {
+.auth-button:disabled {
   background-color: #a5a6f6;
   cursor: not-allowed;
 }
 
-/* 7. Utilities (Error messages and Footer links) */
+/* Utilities (Error messages and Footer links) */
 .error-message {
   color: #dc2626;
   font-size: 0.875rem;
@@ -124,19 +124,43 @@ body {
   text-align: center;
 }
 
-.login-footer {
+.auth-footer {
     margin-top: 1.5rem;
     text-align: center;
     font-size: 0.875rem;
     color: #6b7280;
 }
 
-.login-footer a {
+.auth-footer a {
     color: #4f46e5;
     text-decoration: none;
     font-weight: 500;
 }
 
-.login-footer a:hover {
+.auth-footer a:hover {
     text-decoration: underline;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+  margin-right: 10px; /* Space between spinner and text */
+  vertical-align: middle;
+}
+
+/* Optional: Make the button content center-aligned when loading */
+.auth-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

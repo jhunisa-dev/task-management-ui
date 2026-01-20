@@ -51,7 +51,7 @@ export default function Login() {
       // Update auth state
       await login(res.data.token);
       
-      // 3. Navigate to Dashboard on success
+      // Navigate to Dashboard on success
       navigate("/dashboard");
     } catch (err) {
       setError("Invalid username or password. Please try again.");
@@ -62,14 +62,14 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
           <h2>Welcome Back</h2>
           <p>Please enter your details to sign in.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
@@ -96,12 +96,19 @@ export default function Login() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="login-button" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign in"}
+          <button type="submit" className="auth-button" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <span className="spinner"></span>
+                Signing in...
+              </>
+            ) : (
+              "Sign in"
+            )}
           </button>
         </form>
         
-        <div className="login-footer">
+        <div className="auth-footer">
             <p>Don't have an account? <Link to="/register">Sign up</Link></p>
         </div>
       </div>

@@ -60,7 +60,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axios";
-import "/Login.css"; // Reuse the same CSS for consistency
+import "/Auth.css"; // Reuse the same CSS for consistency
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -92,14 +92,14 @@ export default function Register() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
           <h2>Create Account</h2>
           <p>Join us today! It only takes a minute.</p>
         </div>
 
-        <form onSubmit={handleRegister} className="login-form">
+        <form onSubmit={handleRegister} className="auth-form">
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
@@ -138,12 +138,12 @@ export default function Register() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="login-button" disabled={isLoading}>
+          <button type="submit" className="auth-button" disabled={isLoading}>
             {isLoading ? "Creating account..." : "Register"}
           </button>
         </form>
 
-        <div className="login-footer">
+        <div className="auth-footer">
           <p>
             Already have an account? <Link to="/login">Sign in</Link>
           </p>

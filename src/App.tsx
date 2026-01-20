@@ -1,51 +1,112 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // 1. Import Navigate
+// import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; 
+// import Login from "./pages/Login";
+// import Register from "./pages/Register";
+// import Dashboard from "./pages/Dashboard";
+// import AdminPanel from "./pages/AdminPanel";
+// import ProtectedRoute from "./auth/ProtectedRoute";
+// import Navbar from "./components/Navbar";
+
+// function App() {
+//   return (
+//     <BrowserRouter>
+//       <Navbar /> 
+
+//       <Routes>
+//         {/* Public Routes */}
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/register" element={<Register />} />
+
+//         <Route
+//           path="/dashboard"
+//           element={
+//             <ProtectedRoute>
+//               <Dashboard />
+//             </ProtectedRoute>
+//           }
+//         />
+
+//         <Route
+//           path="/admin"
+//           element={
+//             <ProtectedRoute>
+//               <AdminPanel />
+//             </ProtectedRoute>
+//           }
+//         />
+
+//         <Route path="/" element={<Navigate to="/login" replace />} />
+        
+//         <Route path="*" element={<Navigate to="/login" replace />} />
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// }
+
+// export default App;
+
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom"; 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import Tasks from "./pages/Tasks";
 
-function App() {
+// A wrapper to handle conditional Sidebar rendering
+function AppContent() {
+  const location = useLocation();
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
+
   return (
-    <BrowserRouter>
-      {/* Note: Currently this Navbar will show on the Login page too. 
-          See the tip below if you want to hide it on Login. */}
-      <Navbar /> 
+    <div style={{ display: "flex" }}>
+      {!isAuthPage && <Navbar />}
+      
+      {/* Main content area expands to fill space next to sidebar */}
+      <main style={{ flex: 1 }}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedRoute>
+                <Tasks />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Protected Routes */}
-        {/* 2. CHANGED: path="/" to path="/dashboard" to match Login.js */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminPanel />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* 3. NEW: Redirect root "/" to "/login" automatically */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        
-        {/* Optional: Catch-all for 404s, redirects back to login */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}
