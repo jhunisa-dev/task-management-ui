@@ -29,11 +29,20 @@ export default function Dashboard() {
   })
   .slice(0, 3);
 
+  const isAdmin = user?.role === "ADMIN";
+  const welcomeMessage = isAdmin 
+    ? "System Overview" 
+    : `Welcome back, ${user?.username || "Guest"}! 👋`;
+  
+  const subMessage = isAdmin
+    ? "Here is the current status of the entire project system."
+    : `You have ${stats.todo} tasks left to start today.`;
+
   return (
     <div className="dashboard-page">
       <header className="dashboard-header">
-        <h1>Welcome back, {user?.username || "Guest"}! 👋</h1>
-        <p>You have {stats.todo} tasks left to start today.</p>
+        <h1>{welcomeMessage}</h1>
+        <p>{subMessage}</p>
       </header>
 
       <div className="stats-grid">
@@ -61,7 +70,7 @@ export default function Dashboard() {
           {urgentTasks.length > 0 ? (
             <div className="task-list">
               {urgentTasks.map(task => {
-                const displayDate = task.dueDate || task.deadline; // Use whichever is available
+                const displayDate = task.dueDate || task.deadline; 
                 return (
                   <div key={task.id} className="task-item">
                     <div className="task-info">

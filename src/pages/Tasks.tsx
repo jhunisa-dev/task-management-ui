@@ -1,21 +1,37 @@
+// import { useEffect, useState } from "react";
+// import { getTasks, deleteTask, updateTask, createTask } from "../services/taskService";
+// import TaskCard from "../components/TaskCard";
+// import TaskModal from "../components/TaskModal";
+// import DeleteConfirmModal from "../util/DeleteConfirmModal";
+// import "/Tasks.css"; 
+// import type { Task } from "../types/task";
+
 import { useEffect, useState } from "react";
-import { getTasks, deleteTask, updateTask, createTask } from "../services/taskService";
+import { getTasks, deleteTask, updateTask, createTask, getAllUsers } from "../services/taskService";
+import { useAuth } from "../auth/AuthContext"; // Import Auth to check role
 import TaskCard from "../components/TaskCard";
 import TaskModal from "../components/TaskModal";
-import DeleteConfirmModal from "../util/DeleteConfirmModal";
+import DeleteTaskModal from "../util/DeleteTaskModal";
 import "/Tasks.css"; 
 import type { Task } from "../types/task";
 
 export default function Tasks() {
+  const { user } = useAuth(); // Get current user info
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [users, setUsers] = useState<any[]>([]); // To store the list of users for Admin
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  
+const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+
+  const isAdmin = user?.role === "ADMIN";
+
   useEffect(() => {
     fetchTasks();
-  }, []);
+    if (isAdmin) {
+      fetchUsers();
+    }
+  }, [isAdmin]);
 
   const fetchTasks = async () => {
     try {
@@ -23,6 +39,15 @@ export default function Tasks() {
       setTasks(res.data.content || []);
     } catch (err) {
       console.error("Failed to fetch tasks", err);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const res = await getAllUsers();
+      setUsers(res.data || []);
+    } catch (err) {
+      console.error("Failed to fetch users", err);
     }
   };
 
@@ -46,8 +71,14 @@ export default function Tasks() {
       await deleteTask(taskToDelete.id);
       setIsDeleteModalOpen(false);
       fetchTasks();
-    } catch (err) {
-      console.error("Delete failed", err);
+    } catch (err: any) {
+      if (err.response && err.response.status === 403) {
+        alert("You do not have permission to delete this task.");
+      } else {
+        console.error("Delete failed", err);
+        alert("Delete failed. Please try again.");
+      }
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -57,21 +88,22 @@ export default function Tasks() {
   };
 
   const handleSaveTask = async (updatedData: Partial<Task>) => {
-  if (!selectedTask) return;
-  
-  try {
-    if (selectedTask.id) {
+    try {
+      if (selectedTask && selectedTask.id) {
+        // UPDATE MODE
         await updateTask(selectedTask.id, updatedData);
-    } else {
+      } else {
+        // CREATE MODE (This was unreachable before)
         await createTask(updatedData);
+      }
+      
+      setIsModalOpen(false);
+      fetchTasks();
+    } catch (err) {
+      console.error("Save failed", err);
+      alert("Failed to save task. Please try again.");
     }
-    
-    setIsModalOpen(false);
-    fetchTasks();
-  } catch (err) {
-    alert("Failed to save task. Please try again.");
-  }
-};
+  };
 
   const handleDragStart = (e: React.DragEvent, taskId: number) => {
     e.dataTransfer.setData("taskId", taskId.toString());
@@ -95,7 +127,7 @@ export default function Tasks() {
     <div className="tasks-page">
       <header className="tasks-header">
         <h1>Project Board</h1>
-        <p>Manage your workflow and deadlines.</p>
+        <p>{isAdmin ? "System-wide Task Management" : "Manage your workflow and deadlines."}</p>
       </header>
 
       <div className="kanban-board">
@@ -123,17 +155,12 @@ export default function Tasks() {
                     draggable 
                     onDragStart={(e) => handleDragStart(e, taskItem.id)}
                   >
+                    {/* Pass users list to TaskCard if you want to show assignee name there too */}
                     <TaskCard 
                       task={taskItem} 
                       onDelete={handleDeleteAction} 
-                      onEdit={handleEditClick} 
-                    />
-
-                    <DeleteConfirmModal 
-                      isOpen={isDeleteModalOpen}
-                      taskTitle={taskToDelete?.title || ""}
-                      onClose={() => setIsDeleteModalOpen(false)}
-                      onConfirm={confirmDelete}
+                      onEdit={handleEditClick}
+                      users={users} 
                     />
                   </div>
                 ))}
@@ -142,15 +169,25 @@ export default function Tasks() {
         ))}
       </div>
 
+      {/* TaskModal now receives the users list for the dropdown */}
       <TaskModal 
         isOpen={isModalOpen} 
         task={selectedTask} 
         onClose={() => setIsModalOpen(false)} 
         onSave={handleSaveTask}
+        users={isAdmin ? users : []}
+      />
+
+      {/* Moved outside the loop for performance */}
+      <DeleteTaskModal 
+        isOpen={isDeleteModalOpen}
+        taskTitle={taskToDelete?.title || ""}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
       />
 
       <button className="fab-add" onClick={() => {
-        setSelectedTask({ title: "", description: "", status: "TODO" } as Task);
+        setSelectedTask(null);
         setIsModalOpen(true);
       }}>
         <span>+</span>

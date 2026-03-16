@@ -5,7 +5,14 @@ interface DeleteProps {
   taskTitle: string;
 }
 
-export default function DeleteConfirmModal({ isOpen, onClose, onConfirm, taskTitle }: DeleteProps) {
+export default function DeleteConfirmModal({ 
+  isOpen, 
+  onClose, 
+  onConfirm, 
+  taskTitle 
+}: DeleteProps) {
+  
+  // If the modal isn't open, return nothing
   if (!isOpen) return null;
 
   return (
@@ -15,6 +22,7 @@ export default function DeleteConfirmModal({ isOpen, onClose, onConfirm, taskTit
         <h3>Delete Task?</h3>
         <p>
           Are you sure you want to delete <strong>"{taskTitle}"</strong>? 
+          <br />
           This action cannot be undone.
         </p>
         
