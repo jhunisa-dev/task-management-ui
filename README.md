@@ -8,6 +8,20 @@ Built to interact seamlessly with the **Spring Boot backend**, providing distinc
   <img src="screenshots/admin/admin-panel.png" width="45%" />
 </p>
 
+<h3 align="center">🎬 App Demo</h3>
+
+<p align="center">
+  <strong>👤 User Flow</strong><br/>
+  <img src="screenshots/user/user.gif" alt="User Demo" width="70%" />
+</p>
+
+<br/>
+
+<p align="center">
+  <strong>🛠️ Admin Flow</strong><br/>
+  <img src="screenshots/admin/admin.gif" alt="Admin Demo" width="70%" />
+</p>
+
 ## 🚀 Tech Stack
 
 * **React** (with Vite)
