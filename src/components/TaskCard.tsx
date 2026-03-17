@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default function TaskCard({ task, onDelete, onEdit, users }: Props) {
-  // 1. Get the current logged-in user
   const { user } = useAuth(); 
   
   // Find the assignee from the users list
@@ -22,7 +21,6 @@ export default function TaskCard({ task, onDelete, onEdit, users }: Props) {
   return (
     <div className="task-card" onClick={() => onEdit(task)}>
       <div className="task-card-header">
-        {/* <span className={`priority-indicator ${task.priority?.toLowerCase() || 'medium'}`}></span> */}
         <button className="delete-btn" onClick={(e) => { e.stopPropagation(); onDelete(task.id); }}>
           ×
         </button>
@@ -33,7 +31,6 @@ export default function TaskCard({ task, onDelete, onEdit, users }: Props) {
 
       <div className="task-card-footer">
         
-        {/* 2. ONLY render this block if the user is an ADMIN */}
         {user?.role === "ADMIN" && (
           <div className="task-card-assignee">
             {task.assignedUserId ? (
@@ -46,7 +43,6 @@ export default function TaskCard({ task, onDelete, onEdit, users }: Props) {
           </div>
         )}
 
-        {/* 3. ALWAYS render the due date if it exists */}
         {taskDate && (
           <div className="task-date">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
