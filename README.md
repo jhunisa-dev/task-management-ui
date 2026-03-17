@@ -4,8 +4,8 @@ Built to interact seamlessly with the **Spring Boot backend**, providing distinc
 
 ## 📸 Screenshots
 <p align="center">
-  <img src="screenshots/user-dashboard.png" width="45%" />
-  <img src="screenshots/admin-panel.png" width="45%" />
+  <img src="screenshots/user/user-dashboard.png" width="45%" />
+  <img src="screenshots/admin/admin-panel.png" width="45%" />
 </p>
 
 ## 🚀 Tech Stack
