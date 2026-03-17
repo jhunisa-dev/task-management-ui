@@ -3,12 +3,10 @@ A modern, responsive frontend application for the **Task Management platform**.
 Built to interact seamlessly with the **Spring Boot backend**, providing distinct interfaces for **standard users** and **system administrators**.
 
 ## 📸 Screenshots
-```markdown
 <p align="center">
   <img src="screenshots/user-dashboard.png" width="45%" />
   <img src="screenshots/admin-panel.png" width="45%" />
 </p>
-```
 
 ## 🚀 Tech Stack
 
