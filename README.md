@@ -4,8 +4,10 @@ Built to interact seamlessly with the **Spring Boot backend**, providing distinc
 
 ## 📸 Screenshots
 ```markdown
-![User Dashboard](screenshots/user-dashboard.png)
-![Admin Panel](screenshots/admin-panel.png)
+<p align="center">
+  <img src="screenshots/user-dashboard.png" width="45%" />
+  <img src="screenshots/admin-panel.png" width="45%" />
+</p>
 ```
 
 ## 🚀 Tech Stack
